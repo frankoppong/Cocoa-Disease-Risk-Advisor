@@ -8,7 +8,7 @@
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/YOUR_USERNAME/cocoa-disease-risk-advisor.git
+git clone https://github.com/frankoppong/cocoa-disease-risk-advisor.git
 cd cocoa-disease-risk-advisor
 
 # 2. Install dependencies
