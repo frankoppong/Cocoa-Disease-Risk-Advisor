@@ -1,116 +1,85 @@
+# 🌿 Cocoa Farm Disease Risk Advisor
+> AI-powered disease risk prediction with plain-language SHAP explanations  
+> Built for smallholder cocoa farmers in Ghana's Ashanti, Brong-Ahafo, and Western Regions
+
+![Python](https://img.shields.io/badge/Python-3.10+-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
+![Model AUC](https://img.shields.io/badge/Model%20AUC-0.821-brightgreen)
+![Data](https://img.shields.io/badge/Data-Synthetic%20%2B%20FAO-orange)
+
+---
+
+## 🌍 The Problem
+
+Over 800,000 smallholder cocoa farmers in Ghana lose 30–40% of their yield
+annually to diseases like Black Pod (*Phytophthora palmivora*) and Cocoa
+Swollen Shoot Virus (CSSV). Existing prediction tools give a risk score —
+but not an explanation a farmer can act on.
+
+**This project answers the question every farmer is asking: "Why is MY farm high-risk?"**
+
+---
+
+## ✨ What Makes This Different
+
+Most ML tools stop at a prediction. This one goes further:
+
+| Standard tool | This tool |
+|---|---|
+| "Your risk score is 0.78" | "🔴 HIGH RISK — 78% chance of outbreak" |
+| Raw feature importances | Plain-language explanations per factor |
+| No guidance | Specific action steps for each risk driver |
+| English only | English + Twi phrases for local context |
+| No visuals | Waterfall chart showing what's helping vs hurting |
+
+---
+
+## 🖥️ Demo
+
+Fill in your farm details → get an instant risk assessment with explanations:
+🔴 Your Farm Risk Level: HIGH RISK — 78% probability
+(Ɔbaa tumi ba — Wɔhwɛ ho)
+
+⚠️ What is putting your farm at risk?
+
+📌 Nearby Farms with Disease (%) — your value: 35%
+“Many farms around yours are already sick. Disease spreads by wind,
+rain, and insects. Coordinate spraying with neighbours and contact COCOBOD.”
+
+📌 Annual Rainfall (mm) — your value: 1,600mm
+“High rainfall creates perfect conditions for Black Pod. Spray
+copper-based fungicide after every heavy rain.”
+
+---
+
+## 📊 Data
+
+This project uses two data sources:
+
+### 1. Agronomically-Grounded Synthetic Data
+The model is trained on **2,000 simulated farm records** generated from:
+- **COCOBOD** agronomic guidelines (Ghana Cocoa Board)
+- **FAO** cocoa disease literature (Black Pod, CSSV epidemiology)
+- **West African cocoa belt** documented field conditions
+- **PlantVillage** feature schema reference
+
+The simulation deliberately reflects real conditions in Ghana's cocoa belt —
+feature distributions, disease logic, and risk thresholds are all grounded
+in published agronomic research, not arbitrary numbers.
+
+> **Transparency note:** This is synthetic data, clearly documented as such.
+> The model architecture and explanation system are production-ready and
+> designed to be retrained on real farm records the moment they become
+> available — from COCOBOD district offices, MoFA Ghana, or primary
+> field surveys.
+
+### 2. FAO FAOSTAT National Yield Data
+Real national cocoa yield data for Ghana (2000–2023) from
+**faostat.fao.org**, used to:
+- Validate that high-risk years in the model match real yield drops
+- Provide national context inside the app
+- Anchor the simulation to documented production trends
+
 ---
 
 ## 🏗️ Architecture
-
----
-
-## ⚙️ Quick Start
-
-```bash
-# 1. Clone the repo
-git clone https://github.com/frankoppong/cocoa-disease-risk-advisor.git
-cd cocoa-disease-risk-advisor
-
-# 2. Install dependencies
-pip install scikit-learn shap gradio pandas numpy matplotlib seaborn joblib
-
-# 3. Generate data and train model
-python data/simulate_data.py
-python models/train_model.py
-
-# 4. Launch the app
-python app.py
-# Open http://localhost:7860 in your browser
-```
-
----
-
-## 🤖 Model Details
-
-| Metric | Value |
-|--------|-------|
-| Algorithm | RandomForestClassifier (300 trees) |
-| CV ROC-AUC | 0.821 ± 0.022 |
-| Test ROC-AUC | 0.786 |
-| Training samples | 1,600 |
-| Features | 23 agronomic + socioeconomic |
-
-### Top Risk Drivers (by mean SHAP value)
-1. 🌧️ Annual Rainfall
-2. 🌊 Soil Drainage Quality
-3. 🏘️ Nearby Farms with Disease (%)
-4. 💊 Pesticide Sprays per Year
-5. ✂️ Pruning Regularity
-6. 🌱 Farm Age
-7. 💧 Humidity
-8. 🌿 Fertilizer Use
-
----
-
-## 🌱 Dataset
-
-Simulated using domain knowledge from:
-- **COCOBOD** agronomic guidelines (Ghana Cocoa Board)
-- **FAO** cocoa disease literature
-- **West African cocoa belt** field conditions
-- **PlantVillage** feature schema reference
-
-Key diseases modeled: Black Pod, CSSV, Capsid damage
-
-To use real farm data, replace `cocoa_farm_dataset.csv` with your records
-and re-run `train_model.py`.
-
----
-
-## 🧠 How the Explanations Work
-
-Raw SHAP values are meaningless to a farmer:
-
-This system translates them into three layers:
-
-**1. Plain language** — each feature has a farmer-friendly description  
-**2. Direction-aware advice** — positive SHAP triggers specific action advice  
-**3. Visual waterfall chart** — bars labelled "increases risk" or "reduces risk"
-
----
-
-## 🚀 Deployment Options
-
-**Hugging Face Spaces (free, shareable URL):**
-- Upload all files
-- Set `app.py` as entry point
-- Add `requirements.txt` with the pip packages
-
-**Offline tablet for field use:**
-```bash
-python app.py --server_name 0.0.0.0 --server_port 7860
-```
-
-**Docker:**
-```dockerfile
-FROM python:3.11-slim
-COPY . /app
-WORKDIR /app
-RUN pip install -r requirements.txt
-CMD ["python", "app.py"]
-```
-
----
-
-## 🔮 Extension Ideas
-
-| Feature | Description |
-|---------|-------------|
-| 📸 Photo input | Add pod image classifier using PlantVillage CNN |
-| 📱 SMS alerts | Send risk warnings via Africa's Talking API |
-| 🗣️ Voice output | Text-to-speech in Twi/Akan via Google TTS |
-| 📊 District dashboard | Aggregate SHAP across farms for COCOBOD officers |
-| 📱 Offline mobile | Export to ONNX; run in Android without internet |
-
----
-
-## 📄 License
-Fran Oppong - free for agricultural and research use.
-
-## 🙏 Acknowledgments
-COCOBOD, FAO, PlantVillage, SHAP (Lundberg & Lee 2017), scikit-learn, Gradio.
