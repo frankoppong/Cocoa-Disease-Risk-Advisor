@@ -15,12 +15,12 @@ Ghana is the world's second-largest cocoa producer, with over 800,000 smallholde
 farmers depending on cocoa for their livelihoods. Every year, diseases like
 **Black Pod** (*Phytophthora palmivora*) and **Cocoa Swollen Shoot Virus (CSSV)**
 destroy 30–40% of the national harvest, costing farmers hundreds of millions
-of dollars in lost income.
+of Ghanaian Cedis in lost income.
 
 The problem is not just detection. It is **explanation**.
 
 Existing tools can tell a farmer their farm is high risk. None of them can tell
-the farmer *why* — in language they understand, with actions they can take today.
+the farmer *why*, in language they understand, with actions they can take today.
 
 This project was built to close that gap.
 
@@ -116,7 +116,7 @@ The model is trained on **2,000 simulated farm records** built from:
 The simulation is not arbitrary. Every feature distribution, risk weight,
 and threshold was set to match documented agronomic reality. The model
 is designed to be retrained on real farm records the moment they become
-available — from COCOBOD district offices, MoFA Ghana, or primary field surveys.
+available, from COCOBOD district offices, MoFA Ghana or primary field surveys.
 
 > **Transparency:** This project uses synthetic training data, clearly
 > documented as such. This is standard practice in agricultural ML research
@@ -187,7 +187,7 @@ cocoa_risk/
 ├── app.py                          # Gradio farmer-facing UI
 ├── faostat_analysis.py             # FAO yield analysis script
 ├── batch_analysis.py
-
+```
 
 ---
 
